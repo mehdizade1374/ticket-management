@@ -12,8 +12,16 @@ export function TiketCom(state , action){
         tickets: action.payload,
       };
 
-    default:
-      return state;
-    }
+    case "add-ticket":
+      return {
+        ...state,
+        tickets: [...state.tickets, action.payload]
+      };
 
-}
+      default:
+      return state;
+    
+    }
+    
+
+  }

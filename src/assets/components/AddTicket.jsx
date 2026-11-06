@@ -1,4 +1,40 @@
-function AddTicket() {
+import { useState } from "react";
+
+function AddTicket({dispatch,user}) {
+
+ const [title, setTitle] = useState('')
+  const [categoryID, setCategoryID] = useState('')
+  const [priority, setPriority] = useState('')
+  const [description, setDescription] = useState('')
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const newTicket = {
+    id: Date.now(),
+    userId: user.id,
+    title: title,
+    categoryId: Number(categoryID),
+    priority: priority,
+    description: description,
+    status: "OPEN",
+  };
+
+  dispatch({
+    type: "add-ticket",
+    payload: newTicket,
+    
+  });
+   setTitle('');
+   setCategoryID('');
+   setPriority('');
+   setDescription('');
+
+};
+
+
+
   return (
     <div dir="rtl" className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow">
 
@@ -6,22 +42,32 @@ function AddTicket() {
         ثبت تیکت جدید
       </h2>
 
-      <form className="space-y-4">
+      <form
+       onSubmit={handleSubmit}
+       className="space-y-4">
 
         <input
           type="text"
           placeholder="عنوان تیکت"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className="w-full border rounded-lg p-3 outline-none focus:border-blue-500"
         />
 
-        <select className="w-full border rounded-lg p-3">
+        <select
+            value={categoryID}
+           onChange={(e) => setCategoryID(e.target.value)}
+           className="w-full border rounded-lg p-3">
           <option value="">انتخاب دسته بندی</option>
           <option value="1">پشتیبانی</option>
           <option value="2">مالی</option>
           <option value="3">فنی</option>
         </select>
 
-        <select className="w-full border rounded-lg p-3">
+        <select 
+         value={priority}
+        onChange={(e) => setPriority(e.target.value)}
+        className="w-full border rounded-lg p-3">
           <option value="">انتخاب اولویت</option>
           <option value="LOW">کم</option>
           <option value="MEDIUM">متوسط</option>
@@ -30,6 +76,8 @@ function AddTicket() {
 
         <textarea
           placeholder="متن پیام خود را بنویسید..."
+           value={description}
+          onChange={(e) => setDescription(e.target.value)}
           rows="5"
           className="w-full border rounded-lg p-3 outline-none focus:border-blue-500"
         />
